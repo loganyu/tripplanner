@@ -32,9 +32,9 @@ export const updateTrip = (userId, tripId, tripForm) => (
   })
 );
 
-export const destroyTrip = (userId, id) => (
+export const destroyTrip = (userId, tripId) => (
   $.ajax({
     method: 'DELETE',
-    url: `/api/users/${userId}/trips/${id}`
+    url: `/api/users/${userId}/trips/${tripId}`
   })
 );

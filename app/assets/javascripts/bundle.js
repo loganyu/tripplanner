@@ -32270,10 +32270,10 @@ var updateTrip = function updateTrip(userId, tripId, tripForm) {
     processData: false
   });
 };
-var destroyTrip = function destroyTrip(userId, id) {
+var destroyTrip = function destroyTrip(userId, tripId) {
   return $.ajax({
     method: 'DELETE',
-    url: "/api/users/".concat(userId, "/trips/").concat(id)
+    url: "/api/users/".concat(userId, "/trips/").concat(tripId)
   });
 };
 
