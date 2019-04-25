@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Route,
 } from 'react-router-dom';
+import { AuthRoute, ProtectedRoute } from '../util/route_util';
 
 import NavigationContainer from './navigation/navigation_container';
 import SignUpFormContainer from './session_form/signup_form_container';
@@ -14,8 +15,8 @@ const App = () => (
       <NavigationContainer />
     </header>
 
-    <Route path="/login" component={LogInFormContainer} />
-    <Route path="/signup" component={SignUpFormContainer} />
+    <AuthRoute path="/login" component={LogInFormContainer} />
+    <AuthRoute path="/signup" component={SignUpFormContainer} />
   </div>
 );
 
