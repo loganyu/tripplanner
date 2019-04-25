@@ -32085,7 +32085,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
+/* harmony import */ var _util_trip_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./util/trip_api_util */ "./frontend/util/trip_api_util.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -32113,7 +32115,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   window.getState = store.getState;
-  window.dispatch = store.dispatch; // just for testing!
+  window.dispatch = store.dispatch; // just for testing
 
   var root = document.getElementById('root');
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -32221,9 +32223,59 @@ var logout = function logout() {
     url: '/api/session'
   });
 };
-window.login = login;
-window.signup = signup;
-window.logout = logout;
+
+/***/ }),
+
+/***/ "./frontend/util/trip_api_util.js":
+/*!****************************************!*\
+  !*** ./frontend/util/trip_api_util.js ***!
+  \****************************************/
+/*! exports provided: fetchTrips, fetchTrip, createTrip, updateTrip, destroyTrip */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTrips", function() { return fetchTrips; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTrip", function() { return fetchTrip; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTrip", function() { return createTrip; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateTrip", function() { return updateTrip; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroyTrip", function() { return destroyTrip; });
+var fetchTrips = function fetchTrips(userId) {
+  return $.ajax({
+    method: 'GET',
+    url: "api/users/".concat(userId, "/trips")
+  });
+};
+var fetchTrip = function fetchTrip(userId, tripId) {
+  return $.ajax({
+    method: 'GET',
+    url: "api/users/".concat(userId, "/trips/").concat(tripId)
+  });
+};
+var createTrip = function createTrip(userId, tripForm) {
+  return $.ajax({
+    method: 'POST',
+    url: "api/users/".concat(userId, "/trips"),
+    data: tripForm,
+    contentType: false,
+    processData: false
+  });
+};
+var updateTrip = function updateTrip(userId, tripId, tripForm) {
+  return $.ajax({
+    method: 'PATCH',
+    url: "/api/users/".concat(userId, "/trips/").concat(tripId),
+    data: tripForm,
+    contentType: false,
+    processData: false
+  });
+};
+var destroyTrip = function destroyTrip(userId, id) {
+  return $.ajax({
+    method: 'DELETE',
+    url: "/api/users/".concat(userId, "/trips/").concat(id)
+  });
+};
 
 /***/ }),
 
