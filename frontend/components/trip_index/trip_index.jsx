@@ -4,7 +4,7 @@ import TripIndexItem from './trip_index_item';
 
 class TripIndex extends React.Component {
   componentDidMount() {
-    this.props.fetchTrips();
+    this.props.fetchTrips(this.props.userId);
   }
 
   render() {

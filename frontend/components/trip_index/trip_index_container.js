@@ -5,11 +5,12 @@ import { fetchTrips } from '../../actions/trip_actions';
 import { asArray } from '../../reducers/selectors';
 
 const mapStateToProps = state => ({
-  trips: asArray(state.entities)
+  trips: asArray(state.entities),
+  userId: state.session.id,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchTrips: () => dispatch(fetchTrips())
+  fetchTrips: (userId) => dispatch(fetchTrips(userId))
 });
 
 export default connect(

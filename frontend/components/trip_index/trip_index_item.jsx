@@ -4,12 +4,6 @@ import { withRouter } from 'react-router-dom';
 class IndexItem extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    const tripId = this.props.trip.id;
-    this.props.history.push(`/trips/${tripId}`);
   }
 
   render() {
@@ -19,16 +13,12 @@ class IndexItem extends React.Component {
       <div
         onClick={this.handleClick}
       >
-        <div>
-          <span>
-            {destination}
-          </span>
-          <span>
-            {comment}
-          </span>
-          <span>{start_date}</span>
-          <span>{end_date}</span>
-        </div>
+        <p>
+          <span>{destination}</span><br />
+          <span>{comment}</span><br />
+          <span>{start_date}</span><br />
+          <span>{end_date}</span><br />
+        </p>
       </div>
     );
   }

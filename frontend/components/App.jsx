@@ -7,6 +7,7 @@ import { AuthRoute, ProtectedRoute } from '../util/route_util';
 import NavigationContainer from './navigation/navigation_container';
 import SignUpFormContainer from './session_form/signup_form_container';
 import LogInFormContainer from './session_form/login_form_container';
+import TripIndexContainer from './trip_index/trip_index_container';
 
 const App = () => (
   <div>
@@ -17,6 +18,7 @@ const App = () => (
 
     <AuthRoute path="/login" component={LogInFormContainer} />
     <AuthRoute path="/signup" component={SignUpFormContainer} />
+    <ProtectedRoute exact path="/" component={TripIndexContainer} />
   </div>
 );
 

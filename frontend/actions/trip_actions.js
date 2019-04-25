@@ -21,8 +21,8 @@ export const removeTrip = trip => ({
 });
 
 
-export const fetchTrips = () => dispatch => (
-  APIUtil.fetchTrips().then(trips => (
+export const fetchTrips = (userId) => dispatch => (
+  APIUtil.fetchTrips(userId).then(trips => (
     dispatch(receiveTrips(trips))
   ))
 );
