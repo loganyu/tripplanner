@@ -2,13 +2,13 @@ class Api::TripsController < ApplicationController
   before_action :require_logged_in
 
   def index
-    @trips = Trip.where(:user_id => current_user.id)
+    @trips = Trip.where(:user_id => params[:user_id])
 
     render :index
   end
 
   def create
-    @trip = Trip.create!(trip_params.merge({:user_id => current_user.id}))
+    @trip = Trip.create!(trip_params.merge({:user_id => params[:user_id]}))
 
     render :show
   end
