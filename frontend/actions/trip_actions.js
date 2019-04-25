@@ -27,7 +27,7 @@ export const fetchTrips = () => dispatch => (
   ))
 );
 
-export const fetchTrip = (userId, tripId => dispatch => (
+export const fetchTrip = (userId, tripId) => dispatch => (
   APIUtil.fetchTrip(userId, tripId).then(payload => (
     dispatch(receiveTrip(payload))
   ))

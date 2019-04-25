@@ -154,6 +154,90 @@ var logout = function logout() {
 
 /***/ }),
 
+/***/ "./frontend/actions/trip_actions.js":
+/*!******************************************!*\
+  !*** ./frontend/actions/trip_actions.js ***!
+  \******************************************/
+/*! exports provided: RECEIVE_TRIPS, RECEIVE_TRIP, REMOVE_TRIP, receiveTrips, receiveTrip, removeTrip, fetchTrips, fetchTrip, createTrip, updateTrip, destroyTrip */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRIPS", function() { return RECEIVE_TRIPS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRIP", function() { return RECEIVE_TRIP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_TRIP", function() { return REMOVE_TRIP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveTrips", function() { return receiveTrips; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveTrip", function() { return receiveTrip; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeTrip", function() { return removeTrip; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTrips", function() { return fetchTrips; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTrip", function() { return fetchTrip; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTrip", function() { return createTrip; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateTrip", function() { return updateTrip; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroyTrip", function() { return destroyTrip; });
+/* harmony import */ var _util_trip_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/trip_api_util */ "./frontend/util/trip_api_util.js");
+
+var RECEIVE_TRIPS = 'RECEIVE_TRIPS';
+var RECEIVE_TRIP = 'RECEIVE_TRIP';
+var REMOVE_TRIP = 'REMOVE_TRIP';
+var receiveTrips = function receiveTrips(trips) {
+  return {
+    type: RECEIVE_TRIPS,
+    trips: trips
+  };
+};
+var receiveTrip = function receiveTrip(_ref) {
+  var trip = _ref.trip,
+      owner = _ref.owner;
+  return {
+    type: RECEIVE_TRIP,
+    trip: trip,
+    user: user
+  };
+};
+var removeTrip = function removeTrip(trip) {
+  return {
+    type: REMOVE_TRIP,
+    trip: trip
+  };
+};
+var fetchTrips = function fetchTrips() {
+  return function (dispatch) {
+    return _util_trip_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchTrips"]().then(function (trips) {
+      return dispatch(receiveTrips(trips));
+    });
+  };
+};
+var fetchTrip = function fetchTrip(userId, tripId) {
+  return function (dispatch) {
+    return _util_trip_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchTrip"](userId, tripId).then(function (payload) {
+      return dispatch(receiveTrip(payload));
+    });
+  };
+};
+var createTrip = function createTrip(userId, trip) {
+  return function (dispatch) {
+    return _util_trip_api_util__WEBPACK_IMPORTED_MODULE_0__["createTrip"](userId, trip).then(function (tripData) {
+      return dispatch(receiveTrip(tripData));
+    });
+  };
+};
+var updateTrip = function updateTrip(userId, tripId, trip) {
+  return function (dispatch) {
+    return _util_trip_api_util__WEBPACK_IMPORTED_MODULE_0__["updateTrip"](userId, tripId, trip).then(function (tripData) {
+      return dispatch(receiveTrip(tripData));
+    });
+  };
+};
+var destroyTrip = function destroyTrip(userId, tripId) {
+  return function (dispatch) {
+    return _util_trip_api_util__WEBPACK_IMPORTED_MODULE_0__["destroyTrip"](userId, tripId).then(function (trip) {
+      return dispatch(removeTrip(trip));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/components/App.jsx":
 /*!*************************************!*\
   !*** ./frontend/components/App.jsx ***!
@@ -31879,10 +31963,13 @@ function symbolObservablePonyfill(root) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./frontend/node_modules/redux/es/redux.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
+/* harmony import */ var _trips_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./trips_reducer */ "./frontend/reducers/trips_reducer.js");
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  trips: _trips_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
 }));
 
 /***/ }),
@@ -31998,6 +32085,50 @@ var sessionReducer = function sessionReducer() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (sessionReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/trips_reducer.js":
+/*!********************************************!*\
+  !*** ./frontend/reducers/trips_reducer.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./frontend/node_modules/lodash/merge.js");
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/trip_actions */ "./frontend/actions/trip_actions.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var tripsReducer = function tripsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  var nextState = lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, state);
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRIPS"]:
+      return action.trips;
+
+    case _actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRIP"]:
+      newTrip = _defineProperty({}, action.trip.id, action.trip);
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, state, newTrip);
+
+    case _actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_TRIP"]:
+      delete nextState[action.trip.id];
+      return nextState;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (tripsReducer);
 
 /***/ }),
 
