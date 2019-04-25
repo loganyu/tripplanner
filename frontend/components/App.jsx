@@ -1,10 +1,21 @@
 import React from 'react';
-import NavigationContainer from './navigation_container';
+import {
+  Route,
+} from 'react-router-dom';
+
+import NavigationContainer from './navigation/navigation_container';
+import SignUpFormContainer from './session_form/signup_form_container';
+import LogInFormContainer from './session_form/login_form_container';
 
 const App = () => (
   <div>
-    <h1>Travel Planner</h1>
-    <NavigationContainer />
+    <header>
+      <h1>Travel Planner</h1>
+      <NavigationContainer />
+    </header>
+
+    <Route path="/login" component={LogInFormContainer} />
+    <Route path="/signup" component={SignUpFormContainer} />
   </div>
 );
 
