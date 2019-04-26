@@ -1,5 +1,5 @@
 class Api::TripsController < ApplicationController
-  before_action :require_logged_in, :check_user_permission
+  before_action :require_logged_in, :get_user_and_check_user_permission
 
   def index
     @trips = Trip.where(:user_id => params[:user_id])
