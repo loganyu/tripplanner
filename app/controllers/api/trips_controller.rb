@@ -20,7 +20,7 @@ class Api::TripsController < ApplicationController
   def update
     @trip = Trip.find(params[:id])
     if @trip
-      @event.update(trip_params)
+      @trip.update(trip_params)
       render :show
     else
       render json: { message: 'not found', status: 404 }

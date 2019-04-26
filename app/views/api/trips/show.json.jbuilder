@@ -1,3 +1,3 @@
-json.club do
-  json.partial! '/api/trips/club', trip: @trip
+json.trip do
+  json.partial! '/api/trips/trip', trip: @trip
 end

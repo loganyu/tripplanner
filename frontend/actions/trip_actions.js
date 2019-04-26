@@ -9,7 +9,7 @@ export const receiveTrips = trips => ({
   trips,
 });
 
-export const receiveTrip = ({ trip, owner }) => ({
+export const receiveTrip = ({ trip, user }) => ({
   type: RECEIVE_TRIP,
   trip,
   user,

@@ -187,7 +187,7 @@ var receiveTrips = function receiveTrips(trips) {
 };
 var receiveTrip = function receiveTrip(_ref) {
   var trip = _ref.trip,
-      owner = _ref.owner;
+      user = _ref.user;
   return {
     type: RECEIVE_TRIP,
     trip: trip,
@@ -255,6 +255,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./session_form/signup_form_container */ "./frontend/components/session_form/signup_form_container.js");
 /* harmony import */ var _session_form_login_form_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./session_form/login_form_container */ "./frontend/components/session_form/login_form_container.js");
 /* harmony import */ var _trip_index_trip_index_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./trip_index/trip_index_container */ "./frontend/components/trip_index/trip_index_container.js");
+/* harmony import */ var _trip_form_create_trip_form_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./trip_form/create_trip_form_container */ "./frontend/components/trip_form/create_trip_form_container.js");
+/* harmony import */ var _trip_form_edit_trip_form_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./trip_form/edit_trip_form_container */ "./frontend/components/trip_form/edit_trip_form_container.js");
+
+
 
 
 
@@ -274,6 +278,14 @@ var App = function App() {
     exact: true,
     path: "/",
     component: _trip_index_trip_index_container__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__["ProtectedRoute"], {
+    exact: true,
+    path: "/users/:userId/trips/new",
+    component: _trip_form_create_trip_form_container__WEBPACK_IMPORTED_MODULE_7__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__["ProtectedRoute"], {
+    exact: true,
+    path: "/users/:userId/trips/edit/:tripId",
+    component: _trip_form_edit_trip_form_container__WEBPACK_IMPORTED_MODULE_8__["default"]
   }));
 };
 
@@ -655,6 +667,234 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./frontend/components/trip_form/create_trip_form_container.js":
+/*!*********************************************************************!*\
+  !*** ./frontend/components/trip_form/create_trip_form_container.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./frontend/node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/trip_actions */ "./frontend/actions/trip_actions.js");
+/* harmony import */ var _trip_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./trip_form */ "./frontend/components/trip_form/trip_form.jsx");
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, _ref) {
+  var match = _ref.match;
+  return {
+    userId: parseInt(match.params.userId)
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch, _ref2) {
+  var match = _ref2.match;
+  return {
+    submit: function submit(trip) {
+      return dispatch(Object(_actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__["createTrip"])(match.params.userId, trip));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_trip_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/trip_form/edit_trip_form_container.js":
+/*!*******************************************************************!*\
+  !*** ./frontend/components/trip_form/edit_trip_form_container.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./frontend/node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/trip_actions */ "./frontend/actions/trip_actions.js");
+/* harmony import */ var _trip_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./trip_form */ "./frontend/components/trip_form/trip_form.jsx");
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, _ref) {
+  var match = _ref.match;
+  return {
+    userId: parseInt(match.params.userId),
+    tripId: parseInt(match.params.tripId)
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch, _ref2) {
+  var match = _ref2.match;
+  return {
+    submit: function submit(trip) {
+      return dispatch(Object(_actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__["updateTrip"])(match.params.userId, match.params.tripId, trip));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_trip_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/trip_form/trip_form.jsx":
+/*!*****************************************************!*\
+  !*** ./frontend/components/trip_form/trip_form.jsx ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./frontend/node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var TripForm =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(TripForm, _React$Component);
+
+  function TripForm(props) {
+    var _this;
+
+    _classCallCheck(this, TripForm);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TripForm).call(this, props));
+    var location = _this.props.location;
+    var destination = new URLSearchParams(location.search).get('destination') || '';
+    var comment = new URLSearchParams(location.search).get('comment') || '';
+    var start_date = new URLSearchParams(location.search).get('start_date') || '';
+    var end_date = new URLSearchParams(location.search).get('end_date') || '';
+    _this.state = {
+      destination: destination,
+      comment: comment,
+      start_date: start_date,
+      end_date: end_date
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(TripForm, [{
+    key: "update",
+    value: function update(property) {
+      var _this2 = this;
+
+      return function (e) {
+        return _this2.setState(_defineProperty({}, property, e.target.value));
+      };
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+      var formData = new FormData();
+      formData.append('trip[destination]', this.state.destination);
+      formData.append('trip[comment]', this.state.comment);
+      formData.append('trip[start_date]', this.state.start_date);
+      formData.append('trip[end_date]', this.state.end_date);
+      this.props.submit(formData).then(function (resp) {
+        var tripId = resp.trip.id;
+
+        _this3.props.history.push("/");
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state = this.state,
+          destination = _this$state.destination,
+          comment = _this$state.comment,
+          start_date = _this$state.start_date,
+          end_date = _this$state.end_date;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "new-trip-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "new-trip-form",
+        onSubmit: this.handleSubmit
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "new-trip-title"
+      }, "Trip"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "destination"
+      }, "Destination"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        required: true,
+        id: "destination",
+        type: "text",
+        value: destination,
+        onChange: this.update('destination'),
+        className: "trip-field"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "comment"
+      }, "Comment"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "comment",
+        type: "text",
+        value: comment,
+        onChange: this.update('comment'),
+        className: "trip-field"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "start_date"
+      }, "Start Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        required: true,
+        id: "start_date",
+        type: "date",
+        value: start_date,
+        onChange: this.update('start_date'),
+        className: "trip-field"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "end_date"
+      }, "End Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        required: true,
+        id: "end_date",
+        type: "date",
+        value: end_date,
+        onChange: this.update('end_date'),
+        className: "trip-field"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-trip-buttons"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "create-trip-button"
+      }, "Submit"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.props.history.goBack
+      }, "Cancel"))));
+    }
+  }]);
+
+  return TripForm;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(TripForm));
+
+/***/ }),
+
 /***/ "./frontend/components/trip_index/trip_index.jsx":
 /*!*******************************************************!*\
   !*** ./frontend/components/trip_index/trip_index.jsx ***!
@@ -677,9 +917,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -693,10 +933,14 @@ var TripIndex =
 function (_React$Component) {
   _inherits(TripIndex, _React$Component);
 
-  function TripIndex() {
+  function TripIndex(props) {
+    var _this;
+
     _classCallCheck(this, TripIndex);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(TripIndex).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TripIndex).call(this, props));
+    _this.handleCreateTrip = _this.handleCreateTrip.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(TripIndex, [{
@@ -705,15 +949,25 @@ function (_React$Component) {
       this.props.fetchTrips(this.props.userId);
     }
   }, {
+    key: "handleCreateTrip",
+    value: function handleCreateTrip() {
+      this.props.history.push("/users/".concat(this.props.userId, "/trips/new"));
+    }
+  }, {
     key: "render",
     value: function render() {
-      var trips = this.props.trips;
+      var _this$props = this.props,
+          userId = _this$props.userId,
+          trips = _this$props.trips;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "trips-title"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Trips ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Trips ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleCreateTrip
+      }, "Create Trip"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "trips-container"
       }, trips.map(function (trip) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_trip_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          userId: userId,
           trip: trip,
           key: trip.id
         });
@@ -779,6 +1033,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -787,9 +1049,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -804,12 +1066,33 @@ function (_React$Component) {
   _inherits(IndexItem, _React$Component);
 
   function IndexItem(props) {
+    var _this;
+
     _classCallCheck(this, IndexItem);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(IndexItem).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(IndexItem).call(this, props));
+    _this.handleEditTrip = _this.handleEditTrip.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(IndexItem, [{
+    key: "handleEditTrip",
+    value: function handleEditTrip() {
+      var _this$props = this.props,
+          userId = _this$props.userId,
+          trip = _this$props.trip;
+      this.props.history.push({
+        pathname: "/users/".concat(userId, "/trips/edit/").concat(trip.id),
+        search: Object.entries(trip).map(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 2),
+              k = _ref2[0],
+              v = _ref2[1];
+
+          return "".concat(k, "=").concat(v);
+        }).join('&')
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props$trip = this.props.trip,
@@ -817,9 +1100,9 @@ function (_React$Component) {
           comment = _this$props$trip.comment,
           start_date = _this$props$trip.start_date,
           end_date = _this$props$trip.end_date;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: this.handleClick
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, destination), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, comment), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, start_date), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, end_date), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, destination), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, comment), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, start_date), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, end_date), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleEditTrip
+      }, "Edit Trip"));
     }
   }]);
 
@@ -32316,7 +32599,8 @@ var tripsReducer = function tripsReducer() {
       return action.trips;
 
     case _actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRIP"]:
-      newTrip = _defineProperty({}, action.trip.id, action.trip);
+      var newTrip = _defineProperty({}, action.trip.id, action.trip);
+
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, state, newTrip);
 
     case _actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_TRIP"]:
@@ -32416,9 +32700,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
-/* harmony import */ var _util_trip_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./util/trip_api_util */ "./frontend/util/trip_api_util.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
