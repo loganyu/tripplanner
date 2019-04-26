@@ -34,6 +34,14 @@ class User < ApplicationRecord
     self.session_token
   end
 
+  def is_admin?
+    self.role == User::Roles::ADMIN
+  end
+
+  def is_manager?
+    self.role == User::Roles::MANAGER
+  end
+
   private
 
   def ensure_session_token

@@ -1,10 +1,29 @@
 class Api::UsersController < ApplicationController
+  before_action :require_manager_level, only: [:index]
+  before_action :get_user_and_check_user_permission, :filter_role_parameter, only: [:show, :update]
+
+  def index
+    @users = User.all
+  end
+
   def create
     @user = User.new(user_params)
 
     if @user.save
       login(@user)
-      render "api/users/show"
+      render :show
+    else
+      render json: @user.errors.full_messages, status: 422
+    end
+  end
+
+  def show
+    render :show
+  end
+
+  def update
+    if @user.update(user_params)
+      render :show
     else
       render json: @user.errors.full_messages, status: 422
     end
@@ -13,6 +32,12 @@ class Api::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :name)
+    params.require(:user).permit(:email, :password, :name, :role)
+  end
+
+  def filter_role_parameter
+    if !current_user.is_admin? && !current_user.is_manager? && !params[:user][:role].blank?
+      params[:user][:role] = nil
+    end
   end
 end

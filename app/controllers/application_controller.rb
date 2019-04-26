@@ -31,4 +31,26 @@ class ApplicationController < ActionController::Base
       render json: { base: ['invalid credentials'] }, status: 401
     end
   end
+
+  def require_manager_level
+    unless current_user.is_manager? || current_user.is_admin?
+      render json: { base: ['unauthorized'] }, status: 403
+    end
+  end
+
+  def get_user_and_check_user_permission
+    @user = User.find(params[:user_id])
+    if @user.nil?
+      render json: { base: ['unprocessable entity'] }, status: 422
+    elsif @user.role == User::Roles::ADMIN && currert_user.role != User::Roles::ADMIN
+      render json: { base: ['unauthorized'] }, status: 403
+    else
+      unless current_user.is_manager? || current_user.is_admin? || 
+        current_user.id == @user.id ||
+        currert_user.role == User::Roles::ADMIN ||
+        currert_user.role == User::Roles::MANAGER
+        render json: { base: ['unauthorized'] }, status: 403
+      end
+    end
+  end
 end

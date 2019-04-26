@@ -1,5 +1,5 @@
 class Api::TripsController < ApplicationController
-  before_action :require_logged_in
+  before_action :require_logged_in, :check_user_permission
 
   def index
     @trips = Trip.where(:user_id => params[:user_id])
@@ -8,7 +8,12 @@ class Api::TripsController < ApplicationController
   end
 
   def create
-    @trip = Trip.create!(trip_params.merge({:user_id => params[:user_id]}))
+    @trip = Trip.new(trip_params.merge({:user_id => params[:user_id]}))
+    if @trip.save
+      render :show
+    else
+      render json: @trip.errors.full_messages, status: 422
+    end
 
     render :show
   end
@@ -20,8 +25,11 @@ class Api::TripsController < ApplicationController
   def update
     @trip = Trip.find(params[:id])
     if @trip
-      @trip.update(trip_params)
-      render :show
+      if @trip.update(trip_params)
+        render :show
+      else
+        render json: @trip.errors.full_messages, status: 422
+      end
     else
       render json: { message: 'not found', status: 404 }
     end
