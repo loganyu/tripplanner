@@ -18,7 +18,7 @@ class TripIndex extends React.Component {
   }
 
   render() {
-    const { userId, trips, destroyTrip } = this.props;
+    const { userId, trips, destroyTrip, currentUser, destroyUser } = this.props;
     return (
       <div>
         <div className="trips-title">

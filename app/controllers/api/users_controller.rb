@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   before_action :require_manager_level, only: [:index]
-  before_action :get_user_and_check_user_permission, :filter_role_parameter, only: [:show, :update]
+  before_action :get_user_and_check_user_permission, :filter_role_parameter, only: [:show, :update, :destroy]
 
   def index
     @users = User.all
@@ -24,6 +24,14 @@ class Api::UsersController < ApplicationController
   def update
     if @user.update(user_params)
       render :show
+    else
+      render json: @user.errors.full_messages, status: 422
+    end
+  end
+
+  def destroy
+    if @user.destroy
+      head :no_content
     else
       render json: @user.errors.full_messages, status: 422
     end

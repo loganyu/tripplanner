@@ -1,3 +1,3 @@
-export const asArray = ({ trips }) => (
-  Object.keys(trips).map(key => trips[key])
+export const asArray = (entity) => (
+  Object.keys(entity).map(key => entity[key])
 );
