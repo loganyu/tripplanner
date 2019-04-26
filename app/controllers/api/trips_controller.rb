@@ -14,8 +14,6 @@ class Api::TripsController < ApplicationController
     else
       render json: @trip.errors.full_messages, status: 422
     end
-
-    render :show
   end
 
   def show
@@ -37,10 +35,9 @@ class Api::TripsController < ApplicationController
 
   def destroy
     @trip = Trip.find(params[:id])
-    @trip.deleted = true
-    @trip.save
+    @trip.destroy
 
-    render :show
+    head :no_content
   end
 
   private

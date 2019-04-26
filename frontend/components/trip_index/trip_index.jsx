@@ -18,7 +18,7 @@ class TripIndex extends React.Component {
   }
 
   render() {
-    const { userId, trips } = this.props;
+    const { userId, trips, destroyTrip } = this.props;
     return (
       <div>
         <div className="trips-title">
@@ -34,6 +34,7 @@ class TripIndex extends React.Component {
               userId={userId}
               trip={trip}
               key={trip.id}
+              destroyTrip={destroyTrip}
             />
           ))}
         </section>

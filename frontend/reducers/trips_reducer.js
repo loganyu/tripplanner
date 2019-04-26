@@ -17,7 +17,7 @@ const tripsReducer = (state = {}, action) => {
       const newTrip = { [action.trip.id]: action.trip };
       return merge({}, state, newTrip);
     case REMOVE_TRIP:
-      delete nextState[action.trip.id];
+      delete nextState[action.tripId];
       return nextState;
     default:
       return state;

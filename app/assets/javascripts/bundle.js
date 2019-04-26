@@ -194,10 +194,10 @@ var receiveTrip = function receiveTrip(_ref) {
     user: user
   };
 };
-var removeTrip = function removeTrip(trip) {
+var removeTrip = function removeTrip(tripId) {
   return {
     type: REMOVE_TRIP,
-    trip: trip
+    tripId: tripId
   };
 };
 var fetchTrips = function fetchTrips(userId) {
@@ -230,8 +230,8 @@ var updateTrip = function updateTrip(userId, tripId, trip) {
 };
 var destroyTrip = function destroyTrip(userId, tripId) {
   return function (dispatch) {
-    return _util_trip_api_util__WEBPACK_IMPORTED_MODULE_0__["destroyTrip"](userId, tripId).then(function (trip) {
-      return dispatch(removeTrip(trip));
+    return _util_trip_api_util__WEBPACK_IMPORTED_MODULE_0__["destroyTrip"](userId, tripId).then(function () {
+      return dispatch(removeTrip(tripId));
     });
   };
 };
@@ -958,7 +958,8 @@ function (_React$Component) {
     value: function render() {
       var _this$props = this.props,
           userId = _this$props.userId,
-          trips = _this$props.trips;
+          trips = _this$props.trips,
+          destroyTrip = _this$props.destroyTrip;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "trips-title"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Trips ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -969,7 +970,8 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_trip_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           userId: userId,
           trip: trip,
-          key: trip.id
+          key: trip.id,
+          destroyTrip: destroyTrip
         });
       })));
     }
@@ -1011,6 +1013,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchTrips: function fetchTrips(userId) {
       return dispatch(Object(_actions_trip_actions__WEBPACK_IMPORTED_MODULE_2__["fetchTrips"])(userId));
+    },
+    destroyTrip: function destroyTrip(userId, tripId) {
+      return dispatch(Object(_actions_trip_actions__WEBPACK_IMPORTED_MODULE_2__["destroyTrip"])(userId, tripId));
     }
   };
 };
@@ -1072,6 +1077,7 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(IndexItem).call(this, props));
     _this.handleEditTrip = _this.handleEditTrip.bind(_assertThisInitialized(_this));
+    _this.handleDestroyTrip = _this.handleDestroyTrip.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1093,6 +1099,14 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "handleDestroyTrip",
+    value: function handleDestroyTrip() {
+      var _this$props2 = this.props,
+          userId = _this$props2.userId,
+          trip = _this$props2.trip;
+      this.props.destroyTrip(userId, trip.id);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props$trip = this.props.trip,
@@ -1102,7 +1116,9 @@ function (_React$Component) {
           end_date = _this$props$trip.end_date;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, destination), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, comment), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, start_date), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, end_date), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleEditTrip
-      }, "Edit Trip"));
+      }, "Edit Trip"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleDestroyTrip
+      }, "Delete"));
     }
   }]);
 
@@ -32604,7 +32620,7 @@ var tripsReducer = function tripsReducer() {
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, state, newTrip);
 
     case _actions_trip_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_TRIP"]:
-      delete nextState[action.trip.id];
+      delete nextState[action.tripId];
       return nextState;
 
     default:

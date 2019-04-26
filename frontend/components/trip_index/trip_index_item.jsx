@@ -6,6 +6,7 @@ class IndexItem extends React.Component {
     super(props);
 
     this.handleEditTrip = this.handleEditTrip.bind(this);
+    this.handleDestroyTrip = this.handleDestroyTrip.bind(this);
   }
 
   handleEditTrip() {
@@ -15,6 +16,12 @@ class IndexItem extends React.Component {
       pathname: `/users/${userId}/trips/edit/${trip.id}`,
       search: Object.entries(trip).map(([k, v]) => `${k}=${v}`).join('&'),
     });
+  }
+
+  handleDestroyTrip() {
+    const { userId, trip } = this.props;
+
+    this.props.destroyTrip(userId, trip.id)
   }
 
   render() {
@@ -31,6 +38,10 @@ class IndexItem extends React.Component {
         <button
           onClick={this.handleEditTrip}>
           Edit Trip
+        </button>
+        <button
+          onClick={this.handleDestroyTrip}>
+          Delete
         </button>
       </div>
     );

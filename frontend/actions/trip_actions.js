@@ -15,9 +15,9 @@ export const receiveTrip = ({ trip, user }) => ({
   user,
 });
 
-export const removeTrip = trip => ({
+export const removeTrip = tripId => ({
   type: REMOVE_TRIP,
-  trip,
+  tripId,
 });
 
 
@@ -47,5 +47,5 @@ export const updateTrip = (userId, tripId, trip) => dispatch => (
 
 export const destroyTrip = (userId, tripId) => dispatch => (
   APIUtil.destroyTrip(userId, tripId)
-    .then(trip => dispatch(removeTrip(trip)))
+    .then(() => dispatch(removeTrip(tripId)))
 );
