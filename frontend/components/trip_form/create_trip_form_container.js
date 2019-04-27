@@ -4,6 +4,7 @@ import { createTrip } from '../../actions/trip_actions';
 import TripForm from './trip_form';
 
 const mapStateToProps = (state, { match }) => ({
+  currentUser: state.entities.users[state.session.id],
   userId: match.params.userId ? parseInt(match.params.userId) : state.session.id,
   user: match.params.userId ? state.entities.users[parseInt(match.params.userId)] : state.entities.users[parseInt(state.session.id)]
 });

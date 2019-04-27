@@ -30,6 +30,8 @@ class TripForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
+    const { currentUser } = this.props;
     const formData = new FormData();
     formData.append('trip[destination]', this.state.destination);
     formData.append('trip[comment]', this.state.comment);
@@ -37,7 +39,11 @@ class TripForm extends React.Component {
     formData.append('trip[end_date]', this.state.end_date);
 
     this.props.submit(formData).then((resp) => {
-      this.props.history.push(`/`);
+      if (currentUser.role != null && this.state.role == "") {
+        this.props.history.push('/')
+      } else {
+        this.props.history.goBack();
+      }
     });
   }
 
