@@ -1,6 +1,8 @@
 class Api::UsersController < ApplicationController
+  skip_before_action :require_logged_in, only: [:create]
   before_action :require_manager_level, only: [:index]
-  before_action :get_user_and_check_user_permission, :filter_role_parameter, only: [:show, :update, :destroy]
+  before_action :get_user_and_check_read_permission, :filter_role_parameter, only: [:show]
+  before_action :get_user_and_check_write_permission, :filter_role_parameter, only: [:update, :destroy]
 
   def index
     @users = User.all
@@ -11,9 +13,9 @@ class Api::UsersController < ApplicationController
 
     if @user.save
       login(@user)
-      render :show
+      render "api/users/show"
     else
-      render json: @user.errors.full_messages, status: 422
+      render json: [@user.errors.full_messages], status: 422
     end
   end
 
@@ -25,7 +27,7 @@ class Api::UsersController < ApplicationController
     if @user.update(user_params)
       render :show
     else
-      render json: @user.errors.full_messages, status: 422
+      render json: [@user.errors.full_messages], status: 422
     end
   end
 
@@ -33,7 +35,7 @@ class Api::UsersController < ApplicationController
     if @user.destroy
       head :no_content
     else
-      render json: @user.errors.full_messages, status: 422
+      render json: [@user.errors.full_messages], status: 422
     end
   end
 
@@ -44,7 +46,7 @@ class Api::UsersController < ApplicationController
   end
 
   def filter_role_parameter
-    if !current_user.is_admin? && !current_user.is_manager? && !params[:user][:role].blank?
+    if (!current_user.is_admin? && !current_user.is_manager? && !params[:user][:role].blank?) || params[:user][:role].blank?
       params[:user][:role] = nil
     end
   end

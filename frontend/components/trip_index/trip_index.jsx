@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import TripIndexItem from './trip_index_item';
+import UserIndexItem from '../user_index/user_index_item';
 
 class TripIndex extends React.Component {
   constructor(props) {
@@ -21,8 +23,21 @@ class TripIndex extends React.Component {
     const { userId, trips, destroyTrip, currentUser, destroyUser } = this.props;
     return (
       <div>
+        { ["admin", "manager"].includes(currentUser.role) &&
+          <div>
+            <Link to={`/users`}>View All Users</Link>
+          </div>
+        }
+        <div>
+          <h2>My Profile</h2>
+          <UserIndexItem
+            user={currentUser}
+            destroyUser={destroyUser}
+          />
+        </div>
+        
         <div className="trips-title">
-          <h2>Trips </h2>
+          <h2>Trips</h2>
         </div>
         <button
           onClick={this.handleCreateTrip}>

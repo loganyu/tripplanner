@@ -14,7 +14,7 @@ class UserIndexItem extends React.Component {
 
     this.props.history.push({
       pathname: `/users/edit/${user.id}`,
-      search: Object.entries(user).map(([k, v]) => `${k}=${v}`).join('&'),
+      search: Object.entries(user).filter(([k,v]) => v != null && k != 'id').map(([k, v]) => `${k}=${v}`).join('&'),
     });
   }
 

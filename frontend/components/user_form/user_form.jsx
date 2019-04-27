@@ -25,8 +25,21 @@ class UserForm extends React.Component {
     });
   }
 
+  renderErrors() {
+    return (
+      <ul className="errors-container">
+        {this.props.errors.map((error, i) => (
+          <li className="error" key={`error-${i}`}>
+            {error}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   handleSubmit(e) {
     e.preventDefault();
+    const { currentUser } = this.props;
     const formData = new FormData();
     formData.append('user[username]', this.state.username);
     if (this.state.password != '') {
@@ -35,7 +48,11 @@ class UserForm extends React.Component {
     formData.append('user[role]', this.state.role);
 
     this.props.submit(formData).then((resp) => {
-      this.props.history.goBack();
+      if (currentUser.role != null && this.state.role  == "") {
+        this.props.history.push('/')
+      } else {
+        this.props.history.goBack();
+      }
     });
   }
 
@@ -45,10 +62,11 @@ class UserForm extends React.Component {
       password,
       role,
     } = this.state;
-    const { currentUser } = this.props;
+    const { currentUser, match, errors } = this.props;
 
     return (
       <div className="new-user-container">
+        {errors.length > 0 && this.renderErrors()}
         <form className="new-user-form" onSubmit={this.handleSubmit}>
           <h2 className="new-user-title">User</h2>
           <label htmlFor="destination">Username</label>
@@ -73,7 +91,7 @@ class UserForm extends React.Component {
           />
           <br />
           {
-            (currentUser.role != '' || currentUser.id == match.params.userId) &&
+            (currentUser.role != null && currentUser.id == match.params.userId) &&
             <div>
               <label htmlFor="role">Role</label>
               <select
@@ -81,9 +99,11 @@ class UserForm extends React.Component {
                 onChange={this.update('role')}
                 defaultValue={role}
               >
-                <option value="">None</option>
+                <option value={null}>None</option>
                 <option value="manager">Manager</option>
-                <option value="admin">Admin</option>
+                { currentUser.role == "admin" &&
+                  <option value="admin">Admin</option>
+                }
               </select>
               <br />
             </div>
@@ -97,6 +117,7 @@ class UserForm extends React.Component {
               Submit
             </button>
             <button
+              type="button"
               onClick={this.props.history.goBack}
             >
               Cancel

@@ -14,7 +14,7 @@ class TripIndexItem extends React.Component {
 
     this.props.history.push({
       pathname: `/users/${userId}/trips/edit/${trip.id}`,
-      search: Object.entries(trip).map(([k, v]) => `${k}=${v}`).join('&'),
+      search: Object.entries(trip).filter(([k, v]) => k != 'id').map(([k, v]) => `${k}=${v}`).join('&'),
     });
   }
 
