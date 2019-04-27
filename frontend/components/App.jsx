@@ -3,6 +3,7 @@ import {
   Route,
 } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../util/route_util';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import NavigationContainer from './navigation/navigation_container';
 import SignUpFormContainer from './session_form/signup_form_container';
@@ -15,7 +16,8 @@ import CreateUserFormContainer from './user_form/create_user_form_container';
 import EditUserFormContainer from './user_form/edit_user_form_container';
 
 const App = () => (
-  <div>
+  <React.Fragment>
+    <CssBaseline />
     <header>
       <h1>Travel Planner</h1>
       <NavigationContainer />
@@ -30,7 +32,7 @@ const App = () => (
     <ProtectedRoute exact path="/users" component={UserIndexContainer} />
     <ProtectedRoute exact path="/users/new" component={CreateUserFormContainer} />
     <ProtectedRoute exact path="/users/edit/:userId" component={EditUserFormContainer} />
-  </div>
+  </React.Fragment>
 );
 
 export default App;
