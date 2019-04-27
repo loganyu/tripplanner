@@ -17,6 +17,7 @@ class UserIndex extends React.Component {
     this.props.history.push(`/users/new`);
   }
 
+
   render() {
     const { users, destroyUser } = this.props;
     return (
@@ -30,11 +31,17 @@ class UserIndex extends React.Component {
         </button>
         <section className="users-container">
           {users.map((user) => (
-            <UserIndexItem
-              user={user}
-              key={user.id}
-              destroyUser={destroyUser}
-            />
+            <div key={user.id}>
+              <UserIndexItem
+                user={user}
+                destroyUser={destroyUser}
+              />
+              <button
+                onClick={() => {this.props.history.push(`/users/${user.id}/trips`)}}>
+                View User Profile and Trips
+              </button>
+            </div>
+            
           ))}
         </section>
       </div>

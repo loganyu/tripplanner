@@ -13,6 +13,9 @@ class TripIndex extends React.Component {
 
   componentDidMount() {
     this.props.fetchTrips(this.props.userId);
+    if (this.props.userId != this.props.currentUser.id) {
+      this.props.fetchUser(this.props.userId);
+    }
   }
 
   handleCreateTrip() {
@@ -20,7 +23,7 @@ class TripIndex extends React.Component {
   }
 
   render() {
-    const { userId, trips, destroyTrip, currentUser, destroyUser } = this.props;
+    const { user, userId, trips, destroyTrip, currentUser, destroyUser } = this.props;
     return (
       <div>
         { ["admin", "manager"].includes(currentUser.role) &&
@@ -29,11 +32,15 @@ class TripIndex extends React.Component {
           </div>
         }
         <div>
-          <h2>My Profile</h2>
-          <UserIndexItem
-            user={currentUser}
-            destroyUser={destroyUser}
-          />
+          { user &&
+            <div>
+              <h2>My Profile</h2>
+              <UserIndexItem
+                user={user}
+                destroyUser={destroyUser}
+              />
+            </div>
+          }
         </div>
         
         <div className="trips-title">
