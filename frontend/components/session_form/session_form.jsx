@@ -6,20 +6,23 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
   },
   paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    backgroundColor: theme.palette.error.dark,
+    color: 'white',
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 200,
+    width: 400,
+    fontSize: 20,
   },
   button: {
     margin: theme.spacing.unit,
@@ -82,7 +85,6 @@ class SessionForm extends React.Component {
           >
               <div>
                 <h2>{formType}</h2>
-                {errors.length > 0 && this.renderErrors()}
                 <form onSubmit={this.handleSubmit} className={classes.container}>
                   <TextField
                     required
@@ -111,6 +113,11 @@ class SessionForm extends React.Component {
                     {formType}
                   </Button>
                 </form>
+                {errors.length > 0 &&
+                  <Paper className={classes.paper} elevation={1}>
+                    {this.renderErrors()}
+                  </Paper>
+                }
               </div>
           </Grid>
         </Grid>
