@@ -17,6 +17,7 @@ class UserForm extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   update(property) {
@@ -35,6 +36,11 @@ class UserForm extends React.Component {
         ))}
       </ul>
     );
+  }
+  
+  handleCancel() {
+    this.props.removeErrors();
+    this.props.history.goBack();
   }
 
   handleSubmit(e) {
@@ -118,7 +124,7 @@ class UserForm extends React.Component {
             </button>
             <button
               type="button"
-              onClick={this.props.history.goBack}
+              onClick={this.handleCancel}
             >
               Cancel
             </button>

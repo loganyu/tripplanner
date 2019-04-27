@@ -2,6 +2,7 @@ import {
   RECEIVE_USER_ERRORS,
   RECEIVE_USER,
   REMOVE_USER,
+  REMOVE_USER_ERRORS,
 } from '../actions/user_actions';
 
 export default (state = [], action) => {
@@ -12,6 +13,8 @@ export default (state = [], action) => {
     case RECEIVE_USER:
       return [];
     case REMOVE_USER:
+      return [];
+    case REMOVE_USER_ERRORS:
       return [];
     default:
       return state;
