@@ -1,5 +1,37 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+  }
+});
 
 class SessionForm extends React.Component {
   constructor(props) {
@@ -38,41 +70,57 @@ class SessionForm extends React.Component {
   }
 
   render() {
-    const { formType, errors, navLink } = this.props;
+    const { formType, errors, classes } = this.props;
     const { username, password } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <header>
-          <h1>{formType}</h1>
-          <br />
-          {navLink}
-        </header>
-        <section>
-          {errors.length > 0 && this.renderErrors()}
-          <div>
-            <label htmlFor="username">Username:</label>
-            <input type="text"
-              id="username"
-              value={username}
-              onChange={this.update('username')}
-              autoComplete="username"
-            />
-            <label htmlFor="password">Password:</label>
-            <input type="password"
-              id="password"
-              value={password}
-              onChange={this.update('password')}
-              autoComplete="current-password"
-            />
-            <button type="submit" value={formType}>
-              {formType}
-            </button>
-          </div>
-        </section>
-      </form>
+      <div className={classes.root}>
+        <Grid container spacing={0}>
+          <Grid item xs={12} container
+            display="flex"
+            justify="center"
+          >
+              <div>
+                <h2>{formType}</h2>
+                {errors.length > 0 && this.renderErrors()}
+                <form onSubmit={this.handleSubmit} className={classes.container}>
+                  <TextField
+                    required
+                    id="username"
+                    label="Username"
+                    className={classes.textField}
+                    onChange={this.update('username')}
+                    margin="normal"
+                    autoComplete="username"
+                    value={username}
+                  />
+
+                  <TextField
+                    required
+                    id="password"
+                    label="Password"
+                    value={password}
+                    className={classes.textField}
+                    type="password"
+                    autoComplete="current-password"
+                    margin="normal"
+                    onChange={this.update('password')}
+                  />
+
+                  <Button type="submit" value={formType} variant="contained" color="primary" className={classes.button}>
+                    {formType}
+                  </Button>
+                </form>
+              </div>
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }
 
-export default withRouter(SessionForm);
+SessionForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withRouter(connect()(withStyles(styles)(SessionForm)));

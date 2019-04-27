@@ -18,10 +18,8 @@ import EditUserFormContainer from './user_form/edit_user_form_container';
 const App = () => (
   <React.Fragment>
     <CssBaseline />
-    <header>
-      <h1>Travel Planner</h1>
-      <NavigationContainer />
-    </header>
+
+    <NavigationContainer />
 
     <AuthRoute path="/login" component={LogInFormContainer} />
     <AuthRoute path="/signup" component={SignUpFormContainer} />
