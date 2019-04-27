@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import TripIndex from './trip_index.jsx';
 import { fetchTrips, destroyTrip } from '../../actions/trip_actions';
+import { destroyUser } from '../../actions/user_actions';
 import { asArray } from '../../reducers/selectors';
 
 const mapStateToProps = state => ({
@@ -12,7 +13,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchTrips: (userId) => dispatch(fetchTrips(userId)),
-  destroyTrip: (userId, tripId) => dispatch(destroyTrip(userId, tripId))
+  destroyTrip: (userId, tripId) => dispatch(destroyTrip(userId, tripId)),
+  destroyUser: (userId) => dispatch(destroyUser(userId)),
 });
 
 export default connect(

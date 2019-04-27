@@ -21,7 +21,7 @@ class UserIndexItem extends React.Component {
   handleDestroyUser() {
     const { user } = this.props;
 
-    this.props.destroyUser(user.id)
+    this.props.destroyUser(user.id);
   }
 
   render() {

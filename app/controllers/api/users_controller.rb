@@ -1,8 +1,9 @@
 class Api::UsersController < ApplicationController
   skip_before_action :require_logged_in, only: [:create]
   before_action :require_manager_level, only: [:index]
-  before_action :get_user_and_check_read_permission, :filter_role_parameter, only: [:show]
-  before_action :get_user_and_check_write_permission, :filter_role_parameter, only: [:update, :destroy]
+  before_action :filter_role_parameter, only: [:update]
+  before_action :get_user_and_check_read_permission, only: [:show]
+  before_action :get_user_and_check_write_permission, only: [:update, :destroy]
 
   def index
     @users = User.all
