@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-class IndexItem extends React.Component {
+class TripIndexItem extends React.Component {
   constructor(props) {
     super(props);
 
@@ -48,4 +48,4 @@ class IndexItem extends React.Component {
   }
 }
 
-export default withRouter(IndexItem);
+export default withRouter(TripIndexItem);

@@ -37,7 +37,6 @@ class TripForm extends React.Component {
     formData.append('trip[end_date]', this.state.end_date);
 
     this.props.submit(formData).then((resp) => {
-      const tripId = resp.trip.id
       this.props.history.push(`/`);
     });
   }

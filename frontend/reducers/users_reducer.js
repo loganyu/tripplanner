@@ -5,6 +5,7 @@ import {
   RECEIVE_USER,
   REMOVE_USER,
 } from '../actions/user_actions';
+import { RECEIVE_CURRENT_USER } from '../actions/session_actions';
 
 const usersReducer = (state = {}, action) => {
   let nextState = merge({}, state);
@@ -14,8 +15,10 @@ const usersReducer = (state = {}, action) => {
     case RECEIVE_USERS:
       return action.users;
     case RECEIVE_USER:
-      const newTrip = { [action.user.id]: action.user };
-      return merge({}, state, newTrip);
+      const newUser = { [action.user.id]: action.user };
+      return merge({}, state, newUser);
+    case RECEIVE_CURRENT_USER:
+      return merge({}, state, { [action.currentUser.id]: action.currentUser });
     case REMOVE_USER:
       delete nextState[action.userId];
       return nextState;

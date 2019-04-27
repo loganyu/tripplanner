@@ -5,8 +5,7 @@ import { fetchUsers, destroyUser } from '../../actions/user_actions';
 import { asArray } from '../../reducers/selectors';
 
 const mapStateToProps = state => ({
-  user: asArray(state.entities.users),
-  userId: state.session.id,
+  users: asArray(state.entities.users),
   currentUser: state.entities.users[state.session.id],
 });
 

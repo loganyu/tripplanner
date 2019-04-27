@@ -39,16 +39,16 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user_and_check_user_permission
-    @user = User.find(params[:user_id])
+    @user = params[:user_id] ? User.find(params[:user_id]) : User.find(params[:id])
     if @user.nil?
       render json: { base: ['unprocessable entity'] }, status: 422
-    elsif @user.role == User::Roles::ADMIN && currert_user.role != User::Roles::ADMIN
+    elsif @user.role == User::Roles::ADMIN && current_user.role != User::Roles::ADMIN
       render json: { base: ['unauthorized'] }, status: 403
     else
       unless current_user.is_manager? || current_user.is_admin? || 
         current_user.id == @user.id ||
-        currert_user.role == User::Roles::ADMIN ||
-        currert_user.role == User::Roles::MANAGER
+        current_user.role == User::Roles::ADMIN ||
+        current_user.role == User::Roles::MANAGER
         render json: { base: ['unauthorized'] }, status: 403
       end
     end
