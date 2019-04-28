@@ -22,10 +22,24 @@ const Protected = ({ component: Component, path, loggedIn, exact }) => (
   )} />
 );
 
-const mapStateToProps = state => (
-  { loggedIn: Boolean(state.session.id) }
+const Manager = ({ component: Component, path, loggedIn, currentUser, exact }) => (
+  <Route path={path} exact={exact} render={(props) => (
+    loggedIn && (currentUser.role == 'admin' || currentUser.role == 'manager') ? (
+      <Component {...props} />
+    ) : (
+        <Redirect to="/" />
+      )
+  )} />
 );
+
+const mapStateToProps = state => ({
+  loggedIn: Boolean(state.session.id),
+  currentUser: state.entities.users[state.session.id],
+});
 
 export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
 
 export const ProtectedRoute = withRouter(connect(mapStateToProps)(Protected));
+
+export const ManagerRoute = withRouter(connect(mapStateToProps)(Manager));
+

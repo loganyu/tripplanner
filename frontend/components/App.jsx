@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthRoute, ProtectedRoute } from '../util/route_util';
+import { AuthRoute, ProtectedRoute, ManagerRoute } from '../util/route_util';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import NavigationContainer from './navigation/navigation_container';
@@ -17,16 +17,17 @@ const App = () => (
     <CssBaseline />
 
     <NavigationContainer />
-
-    <AuthRoute path="/login" component={LogInFormContainer} />
-    <AuthRoute path="/signup" component={SignUpFormContainer} />
-    <ProtectedRoute exact path="/" component={TripIndexContainer} />
-    <ProtectedRoute exact path="/users/:userId/trips" component={TripIndexContainer} />
-    <ProtectedRoute exact path="/users/:userId/trips/new" component={CreateTripFormContainer} />
-    <ProtectedRoute exact path="/users/:userId/trips/edit/:tripId" component={EditTripFormContainer} />
-    <ProtectedRoute exact path="/users" component={UserIndexContainer} />
-    <ProtectedRoute exact path="/users/new" component={CreateUserFormContainer} />
-    <ProtectedRoute exact path="/users/edit/:userId" component={EditUserFormContainer} />
+    <div style={{"padding": "10px 30px"}}>
+      <AuthRoute path="/login" component={LogInFormContainer} />
+      <AuthRoute path="/signup" component={SignUpFormContainer} />
+      <ProtectedRoute exact path="/" component={TripIndexContainer} />
+      <ProtectedRoute exact path="/users/:userId/trips" component={TripIndexContainer} />
+      <ProtectedRoute exact path="/users/:userId/trips/new" component={CreateTripFormContainer} />
+      <ProtectedRoute exact path="/users/:userId/trips/edit/:tripId" component={EditTripFormContainer} />
+      <ManagerRoute exact path="/users" component={UserIndexContainer} />
+      <ManagerRoute exact path="/users/new" component={CreateUserFormContainer} />
+      <ManagerRoute exact path="/users/edit/:userId" component={EditUserFormContainer} />
+    </div>
   </React.Fragment>
 );
 
