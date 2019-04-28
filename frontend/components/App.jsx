@@ -17,7 +17,7 @@ const App = () => (
     <CssBaseline />
 
     <NavigationContainer />
-    <div style={{"padding": "10px 30px"}}>
+    <div style={{"padding": "10px 50px"}}>
       <AuthRoute path="/login" component={LogInFormContainer} />
       <AuthRoute path="/signup" component={SignUpFormContainer} />
       <ProtectedRoute exact path="/" component={TripIndexContainer} />
