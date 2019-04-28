@@ -39,11 +39,6 @@ class TripIndex extends React.Component {
     const { user, userId, trips, destroyTrip, currentUser, destroyUser, classes } = this.props;
     return (
         <div className={classes.root}>
-            {["admin", "manager"].includes(currentUser.role) &&
-              <div>
-                <Link to={`/users`}>View All Users</Link>
-              </div>
-            }
             <div>
               {user &&
                 <div>
@@ -51,6 +46,7 @@ class TripIndex extends React.Component {
                   <UserIndexItem
                     user={user}
                     destroyUser={destroyUser}
+                    currentUser={currentUser}
                   />
                 </div>
               }

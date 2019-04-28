@@ -15,11 +15,11 @@ const styles = {
   },
   title: {
     height: 30,
-    textOverflow: "ellipsis",
+    overflow: "auto",
   },
   content: {
     height: 60,
-    textOverflow: "ellipsis",
+    overflow: "auto",
   },
   pos: {
     marginBottom: 12,
@@ -54,29 +54,27 @@ class TripIndexItem extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div>
-        <Card className={classes.card}>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-              {destination}
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              {`${start_date} to ${end_date}`}
-            </Typography>
-            <Typography component="p" className={classes.content}>
-              {comment}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small" color="primary" onClick={this.handleEditTrip}>
-              Edit Trip
-            </Button>
-            <Button size="small" color="primary" onClick={this.handleDestroyTrip}>
-              Delete
-            </Button>
-          </CardActions>
-        </Card>
-      </div>
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
+            {destination}
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary">
+            {`${start_date} to ${end_date}`}
+          </Typography>
+          <Typography component="p" className={classes.content}>
+            {comment}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" color="primary" onClick={this.handleEditTrip}>
+            Edit Trip
+          </Button>
+          <Button size="small" color="primary" onClick={this.handleDestroyTrip}>
+            Delete
+          </Button>
+        </CardActions>
+      </Card>
     );
   }
 }

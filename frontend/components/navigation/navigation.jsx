@@ -48,8 +48,11 @@ class Navigation extends React.Component {
             <div>
               {currentUser &&
                 <div>
-                  <Button color="inherit" onClick={() => this.handleNavigate(`/`)}>Home</Button>
-                    <Button color="inherit" onClick={this.handleLogOut}>Log Out</Button>
+                  {["admin", "manager"].includes(currentUser.role) &&
+                    <Button color="inherit" onClick={() => this.handleNavigate(`/users`)}>View All Users</Button>
+                  }
+                  <Button color="inherit" onClick={() => this.handleNavigate(`/`)}>{currentUser.username}</Button>
+                  <Button color="inherit" onClick={this.handleLogOut}>Log Out</Button>
                 </div>
               }
               {!currentUser &&

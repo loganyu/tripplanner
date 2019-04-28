@@ -97,7 +97,7 @@ class UserForm extends React.Component {
           />
           <br />
           {
-            (currentUser.role != null && currentUser.id == match.params.userId) &&
+            currentUser.role != null &&
             <div>
               <label htmlFor="role">Role</label>
               <select
