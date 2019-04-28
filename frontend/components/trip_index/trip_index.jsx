@@ -29,7 +29,7 @@ class TripIndex extends React.Component {
     this.handleCreateTrip = this.handleCreateTrip.bind(this);
     this.filterTrips = this.filterTrips.bind(this);
     this.state = {
-      filteredTrips: [],
+      filter: '',
     };
   }
 
@@ -48,13 +48,14 @@ class TripIndex extends React.Component {
 
   filterTrips(e) {
     const filter = e.target.value.toLowerCase();
-    const filteredTrips = this.props.trips.filter((trip) => trip.destination.toLowerCase().includes(filter));
-    this.setState({filteredTrips});
+    this.setState({filter});
   }
 
   render() {
     const { user, userId, trips, destroyTrip, currentUser, destroyUser, classes } = this.props;
-    const { filteredTrips } = this.state;
+    const { filter } = this.state;
+    const filteredTrips = trips.filter((trip) => trip.destination.toLowerCase().includes(filter)).sort((a,b) => a.start_date < b.start_date ? 1 : -1);
+    
     return (
         <div className={classes.root}>
             <div>

@@ -30,6 +30,10 @@ class TripIndexItem extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      today: new Date(),
+    };
+
     this.handleEditTrip = this.handleEditTrip.bind(this);
     this.handleDestroyTrip = this.handleDestroyTrip.bind(this);
   }
@@ -46,7 +50,19 @@ class TripIndexItem extends React.Component {
   handleDestroyTrip() {
     const { userId, trip } = this.props;
 
-    this.props.destroyTrip(userId, trip.id)
+    this.props.destroyTrip(userId, trip.id);
+  }
+
+  dayCount(start_date) {
+    const { today } = this.state;
+    const start = new Date(start_date);
+    if (today >= start) {
+      return "";
+    }
+    const milliSeconds = start - today;
+    const days = Math.ceil(milliSeconds / (1000 * 3600 * 24));
+
+    return `Days until trip: ${days}`;
   }
 
   render() {
@@ -56,6 +72,9 @@ class TripIndexItem extends React.Component {
     return (
       <Card className={classes.card}>
         <CardContent>
+          <Typography className={classes.title} color="textSecondary" gutterBottom>
+            {this.dayCount(start_date)}
+          </Typography>
           <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
             {destination}
           </Typography>
