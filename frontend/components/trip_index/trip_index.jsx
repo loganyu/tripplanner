@@ -103,9 +103,11 @@ class TripIndex extends React.Component {
               }
             </div>
           <h2>Trips</h2>
-          <Button onClick={this.handleCreateTrip} variant="contained" color="primary" className={classes.button}>
-            Create Trip
+          {user &&(currentUser.id == user.id || currentUser.role == 'admin' || (currentUser.role == 'manager' && user.role != 'admin')) &&
+            <Button onClick={this.handleCreateTrip} variant="contained" color="primary" className={classes.button}>
+              Create Trip
             </Button>
+          }
 
           <ReactToPrint
             trigger={() =>

@@ -67,7 +67,7 @@ class TripIndexItem extends React.Component {
 
   render() {
     const { destination, comment, start_date, end_date } = this.props.trip;
-    const { classes } = this.props;
+    const { classes, currentUser, user } = this.props;
 
     return (
       <Card className={classes.card}>
@@ -85,14 +85,16 @@ class TripIndexItem extends React.Component {
             {comment}
           </Typography>
         </CardContent>
-        <CardActions>
-          <Button size="small" color="primary" onClick={this.handleEditTrip}>
-            Edit Trip
-          </Button>
-          <Button size="small" color="primary" onClick={this.handleDestroyTrip}>
-            Delete
-          </Button>
-        </CardActions>
+        {user && (currentUser.id == user.id || currentUser.role == 'admin' || (currentUser.role == 'manager' && user.role != 'admin')) &&
+          <CardActions>
+            <Button size="small" color="primary" onClick={this.handleEditTrip}>
+              Edit Trip
+            </Button>
+            <Button size="small" color="primary" onClick={this.handleDestroyTrip}>
+              Delete
+            </Button>
+          </CardActions>
+        }
       </Card>
     );
   }
