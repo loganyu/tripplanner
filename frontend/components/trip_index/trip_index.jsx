@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import TripIndexItem from './trip_index_item';
 import UserIndexItem from '../user_index/user_index_item';
@@ -14,6 +15,11 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
   },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
 });
 
 class TripIndex extends React.Component {
@@ -21,10 +27,16 @@ class TripIndex extends React.Component {
     super(props);
 
     this.handleCreateTrip = this.handleCreateTrip.bind(this);
+    this.filterTrips = this.filterTrips.bind(this);
+    this.state = {
+      filteredTrips: [],
+    };
   }
 
   componentDidMount() {
-    this.props.fetchTrips(this.props.userId);
+    this.props.fetchTrips(this.props.userId).then(() => {
+      this.setState({filteredTrips: this.props.trips});
+    });
     if (this.props.userId != this.props.currentUser.id) {
       this.props.fetchUser(this.props.userId);
     }
@@ -34,8 +46,15 @@ class TripIndex extends React.Component {
     this.props.history.push(`/users/${this.props.userId}/trips/new`);
   }
 
+  filterTrips(e) {
+    const filter = e.target.value.toLowerCase();
+    const filteredTrips = this.props.trips.filter((trip) => trip.destination.toLowerCase().includes(filter));
+    this.setState({filteredTrips});
+  }
+
   render() {
     const { user, userId, trips, destroyTrip, currentUser, destroyUser, classes } = this.props;
+    const { filteredTrips } = this.state;
     return (
         <div className={classes.root}>
             <div>
@@ -52,11 +71,19 @@ class TripIndex extends React.Component {
               }
             </div>
           <h2>Trips</h2>
+          <TextField
+            id="standard-search"
+            label="Filter Trips By Destination"
+            type="search"
+            className={classes.textField}
+            margin="normal"
+            onChange={this.filterTrips}
+          />
           <Button onClick={this.handleCreateTrip} variant="contained" color="primary" className={classes.button}>
             Create Trip
           </Button>
           <Grid container spacing={24}>
-            {trips.map((trip) => (
+            {filteredTrips.map((trip) => (
               <Grid item key={trip.id} xs={4}>
                 <TripIndexItem
                   userId={userId}
