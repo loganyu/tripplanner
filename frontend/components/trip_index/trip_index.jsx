@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import ReactToPrint from 'react-to-print';
 
 import TripIndexItem from './trip_index_item';
 import UserIndexItem from '../user_index/user_index_item';
@@ -21,6 +22,36 @@ const styles = theme => ({
     width: 200,
   },
 });
+
+class ComponentToPrint extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Trips Next Month</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>destination</th>
+              <th>comment</th>
+              <th>start date</th>
+              <th>end date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.trips.map((trip) =>
+              <tr key={trip.id}>
+                <td>{trip.destination}</td>
+                <td>{trip.comment}</td>
+                <td>{trip.start_date}</td>
+                <td>{trip.end_date}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>  
+    );
+  }
+}
 
 class TripIndex extends React.Component {
   constructor(props) {
@@ -55,7 +86,7 @@ class TripIndex extends React.Component {
     const { user, userId, trips, destroyTrip, currentUser, destroyUser, classes } = this.props;
     const { filter } = this.state;
     const filteredTrips = trips.filter((trip) => trip.destination.toLowerCase().includes(filter)).sort((a,b) => a.start_date < b.start_date ? 1 : -1);
-    
+
     return (
         <div className={classes.root}>
             <div>
@@ -72,6 +103,19 @@ class TripIndex extends React.Component {
               }
             </div>
           <h2>Trips</h2>
+          <Button onClick={this.handleCreateTrip} variant="contained" color="primary" className={classes.button}>
+            Create Trip
+            </Button>
+
+          <ReactToPrint
+            trigger={() =>
+              <Button variant="contained" className={classes.button}>
+                Print Travel Plan For Next Month
+                </Button>
+            }
+            content={() => this.componentRef}
+          />
+          <br />
           <TextField
             id="standard-search"
             label="Filter Trips By Destination"
@@ -80,9 +124,6 @@ class TripIndex extends React.Component {
             margin="normal"
             onChange={this.filterTrips}
           />
-          <Button onClick={this.handleCreateTrip} variant="contained" color="primary" className={classes.button}>
-            Create Trip
-          </Button>
           <Grid container spacing={24}>
             {filteredTrips.map((trip) => (
               <Grid item key={trip.id} xs={4}>
@@ -95,6 +136,19 @@ class TripIndex extends React.Component {
               </Grid>
             ))}
           </Grid>
+          <div style={{ display: 'none' }}>
+            <ComponentToPrint
+              trips={trips.filter((trip) => {
+                const trip_start = new Date(trip.start_date)
+                const start_date = new Date()
+                let end_date = new Date
+                end_date = new Date(end_date.setMonth(end_date.getMonth() + 1))
+
+                return start_date < trip_start && trip_start < end_date
+              })}
+              ref={el => (this.componentRef = el)}
+            />
+          </div>
       </div>
     )
   }
