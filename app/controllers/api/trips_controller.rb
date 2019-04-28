@@ -9,6 +9,10 @@ class Api::TripsController < ApplicationController
   end
 
   def create
+    if trip_params[:start_date] > trip_params[:end_date]
+      render json: { message: 'start_date must be before end_date', status: 422 }
+      return
+    end
     @trip = Trip.new(trip_params.merge({:user_id => params[:user_id]}))
     if @trip.save
       render :show
@@ -23,6 +27,10 @@ class Api::TripsController < ApplicationController
 
   def update
     @trip = Trip.find(params[:id])
+    if trip_params[:start_date] > trip_params[:end_date]
+      render json: { message: 'start_date must be before end_date', status: 422 }
+      return
+    end
     if @trip
       if @trip.update(trip_params)
         render :show
