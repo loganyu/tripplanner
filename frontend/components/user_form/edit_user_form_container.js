@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { updateUser, removeErrors } from '../../actions/user_actions';
 import UserForm from './user_form';
 
-const mapStateToProps = ({ entities, session, errors }, { match }) => ({
+const mapStateToProps = ({ entities, session, errors }) => ({
   currentUser: entities.users[session.id],
   errors: errors.user,
 });

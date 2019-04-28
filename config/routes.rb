@@ -7,5 +7,7 @@ Rails.application.routes.draw do
       resources :trips,  only: [:index, :show, :create, :destroy, :update]
     end
     resource :session, only: [:create, :destroy, :show]
+    post '/auth/login', to: 'authentication#login'
+    get '/*a', to: 'application#not_found'
   end
 end

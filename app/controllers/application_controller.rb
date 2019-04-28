@@ -1,14 +1,25 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
   before_action :require_logged_in
-
+  protect_from_forgery with: :exception, unless: :token_authentication?
   helper_method :current_user, :logged_in?
 
   private
 
   def current_user
-    return nil unless session[:session_token]
-    @current_user ||= User.find_by(session_token: session[:session_token])
+    if token_authentication?
+      header = request.headers['Authorization']
+      header = header.split(' ').last if header
+      begin
+        @decoded = JsonWebToken.decode(header)
+        @current_user = User.find(@decoded[:user_id])
+      rescue => e
+        return nil
+      end
+    elsif session[:session_token]
+      @current_user ||= User.find_by(session_token: session[:session_token])
+    else
+      return nil
+    end
   end
 
   def logged_in?
@@ -67,5 +78,13 @@ class ApplicationController < ActionController::Base
         render json: { base: ['unauthorized'] }, status: 403
       end
     end
+  end
+
+  def token_authentication?
+    return !request.headers['Authorization'].blank?
+  end
+
+  def not_found
+    render json: { error: 'not_found' }
   end
 end

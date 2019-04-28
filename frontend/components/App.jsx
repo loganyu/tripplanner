@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthRoute, ProtectedRoute, ManagerRoute } from '../util/route_util';
+import { AuthRoute, ProtectedRoute, ManagerRoute, ManagerOrOwnerRoute } from '../util/route_util';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import NavigationContainer from './navigation/navigation_container';
@@ -26,7 +26,7 @@ const App = () => (
       <ProtectedRoute exact path="/users/:userId/trips/edit/:tripId" component={EditTripFormContainer} />
       <ManagerRoute exact path="/users" component={UserIndexContainer} />
       <ManagerRoute exact path="/users/new" component={CreateUserFormContainer} />
-      <ManagerRoute exact path="/users/edit/:userId" component={EditUserFormContainer} />
+      <ManagerOrOwnerRoute exact path="/users/edit/:userId" component={EditUserFormContainer} />
     </div>
   </React.Fragment>
 );

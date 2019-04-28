@@ -117,7 +117,7 @@ class UserForm extends React.Component {
             justify="center"
           >
             <div>
-              <h2>Edit User</h2>
+              <h2>User</h2>
               <form onSubmit={this.handleSubmit} className={classes.container}>
                 <TextField
                   id="username"
@@ -131,7 +131,7 @@ class UserForm extends React.Component {
 
                 <TextField
                   id="password"
-                  label="Password: Leave blank to keep password the same"
+                  label="Password"
                   value={password}
                   className={classes.textField}
                   type="password"

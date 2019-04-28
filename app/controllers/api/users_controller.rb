@@ -34,7 +34,7 @@ class Api::UsersController < ApplicationController
 
   def destroy
     if @user.destroy
-      head :no_content
+      render json: { message: 'delete successful'}
     else
       render json: [@user.errors.full_messages], status: 422
     end
@@ -47,8 +47,10 @@ class Api::UsersController < ApplicationController
   end
 
   def filter_role_parameter
-    if (!current_user.is_admin? && !current_user.is_manager? && !params[:user][:role].blank?) || params[:user][:role].blank?
+    if (current_user.is_admin? || current_user.is_manager?) && params[:user][:role].blank?
       params[:user][:role] = nil
+    elsif !current_user.is_admin? && !current_user.is_manager? && !params[:user][:role].blank?
+      params[:user].delete(:role)
     end
   end
 end

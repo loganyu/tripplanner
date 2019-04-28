@@ -46,7 +46,7 @@ class Api::TripsController < ApplicationController
     @trip = Trip.find(params[:id])
     @trip.destroy
 
-    head :no_content
+    render json: { message: 'delete successful'}
   end
 
   private
