@@ -2,7 +2,7 @@
   "name": "travelplanner",
   "version": "1.0.0",
   "description": "This README would normally document whatever steps are necessary to get the application up and running.",
-  "main": "index.js",
+  "main": "webpack.config.js",
   "directories": {
     "lib": "lib",
     "test": "test"
@@ -32,8 +32,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack",
-    "postinstall": "webpack"
+    "start": "webpack --watch --mode=development",
+    "postinstall": "webpack --mode=production"
   },
   "repository": {
     "type": "git",
