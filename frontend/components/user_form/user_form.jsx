@@ -102,11 +102,7 @@ class UserForm extends React.Component {
     
 
     this.props.submit(formData).then((resp) => {
-      if (currentUser.role != null && this.state.role  == "") {
-        this.props.history.push('/')
-      } else {
-        this.props.history.goBack();
-      }
+      this.props.history.goBack();
     });
   }
 
