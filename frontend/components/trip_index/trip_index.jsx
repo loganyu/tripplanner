@@ -103,7 +103,7 @@ class TripIndex extends React.Component {
               }
             </div>
           <h2>Trips</h2>
-          {user &&(currentUser.id == user.id || currentUser.role == 'admin' || (currentUser.role == 'manager' && user.role != 'admin')) &&
+          {user && (currentUser.id == user.id || currentUser.role == 'admin' || (currentUser.role == 'manager' && user.role != 'admin')) &&
             <Button onClick={this.handleCreateTrip} variant="contained" color="primary" className={classes.button}>
               Create Trip
             </Button>
@@ -134,6 +134,8 @@ class TripIndex extends React.Component {
                   trip={trip}
                   key={trip.id}
                   destroyTrip={destroyTrip}
+                  user={user}
+                  currentUser={currentUser}
                 />
               </Grid>
             ))}
