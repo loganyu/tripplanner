@@ -1,8 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import TripIndexItem from './trip_index_item';
 import UserIndexItem from '../user_index/user_index_item';
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+});
 
 class TripIndex extends React.Component {
   constructor(props) {
@@ -23,46 +36,49 @@ class TripIndex extends React.Component {
   }
 
   render() {
-    const { user, userId, trips, destroyTrip, currentUser, destroyUser } = this.props;
+    const { user, userId, trips, destroyTrip, currentUser, destroyUser, classes } = this.props;
     return (
-      <div>
-        { ["admin", "manager"].includes(currentUser.role) &&
-          <div>
-            <Link to={`/users`}>View All Users</Link>
-          </div>
-        }
-        <div>
-          { user &&
+        <div className={classes.root}>
+            {["admin", "manager"].includes(currentUser.role) &&
+              <div>
+                <Link to={`/users`}>View All Users</Link>
+              </div>
+            }
             <div>
-              <h2>My Profile</h2>
-              <UserIndexItem
-                user={user}
-                destroyUser={destroyUser}
-              />
+              {user &&
+                <div>
+                  <h2>Profile</h2>
+                  <UserIndexItem
+                    user={user}
+                    destroyUser={destroyUser}
+                  />
+                </div>
+              }
             </div>
-          }
-        </div>
-        
-        <div className="trips-title">
           <h2>Trips</h2>
-        </div>
-        <button
-          onClick={this.handleCreateTrip}>
-          Create Trip
-        </button>
-        <section className="trips-container">
-          {trips.map((trip) => (
-            <TripIndexItem
-              userId={userId}
-              trip={trip}
-              key={trip.id}
-              destroyTrip={destroyTrip}
-            />
-          ))}
-        </section>
+          <Button onClick={this.handleCreateTrip} variant="contained" color="primary" className={classes.button}>
+            Create Trip
+          </Button>
+          <Grid container spacing={24}>
+            {trips.map((trip) => (
+              <Grid item key={trip.id} xs={4}>
+                <TripIndexItem
+                  userId={userId}
+                  trip={trip}
+                  key={trip.id}
+                  destroyTrip={destroyTrip}
+                />
+              </Grid>
+            ))}
+            
+          </Grid>
       </div>
     )
   }
 }
 
-export default TripIndex;
+TripIndex.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(TripIndex);

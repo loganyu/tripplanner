@@ -110,6 +110,7 @@ class TripForm extends React.Component {
               Submit
             </button>
             <button
+              type="button"
               onClick={this.props.history.goBack}
             >
               Cancel
