@@ -26,7 +26,7 @@ const styles = theme => ({
 class ComponentToPrint extends React.Component {
   render() {
     return (
-      <div>
+      <div style={{ "padding": "30px" }}>
         <h1>Trips Next Month</h1>
         <table>
           <thead>
@@ -140,7 +140,7 @@ class TripIndex extends React.Component {
           </Grid>
           <div style={{ display: 'none' }}>
             <ComponentToPrint
-              trips={trips.filter((trip) => {
+                trips={trips.sort((a, b) => a.start_date < b.start_date ? -1 : 1).filter((trip) => {
                 const trip_start = new Date(trip.start_date)
                 const start_date = new Date()
                 let end_date = new Date
