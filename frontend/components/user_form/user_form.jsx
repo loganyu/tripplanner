@@ -94,12 +94,7 @@ class UserForm extends React.Component {
     if (this.state.password != '') {
       formData.append('user[password]', this.state.password);
     }
-    if (this.state.role != '') {
-      formData.append('user[role]', this.state.role);
-    } else {
-      formData.append('user[role]', null);
-    }
-    
+    formData.append('user[role]', this.state.role);
 
     this.props.submit(formData).then((resp) => {
       this.props.history.goBack();

@@ -1,5 +1,34 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 400,
+    fontSize: 20,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+});
 
 class TripForm extends React.Component {
   constructor(props) {
@@ -54,72 +83,77 @@ class TripForm extends React.Component {
       start_date,
       end_date,
     } = this.state;
+    const { classes } = this.props;
 
     return (
-      <div className="new-trip-container">
-        <form className="new-trip-form" onSubmit={this.handleSubmit}>
-          <h2 className="new-trip-title">Trip</h2>
-          <label htmlFor="destination">Destination</label>
-          <input
-            required
-            id="destination"
-            type="text"
-            value={destination}
-            onChange={this.update('destination')}
-            className="trip-field"
-          />
-          <br />
+      <div className={classes.root}>
+        <Grid container spacing={0}>
+          <Grid item xs={12} container
+            display="flex"
+            justify="center"
+          >
+            <div>
+              <h2>Trip</h2>
+              <form onSubmit={this.handleSubmit} className={classes.container}>
+                <TextField
+                  required
+                  id="destination"
+                  label="Destination"
+                  value={destination}
+                  className={classes.textField}
+                  onChange={this.update('destination')}
+                  margin="normal"
+                />
 
-          <label htmlFor="comment">Comment</label>
-          <input
-            id="comment"
-            type="text"
-            value={comment}
-            onChange={this.update('comment')}
-            className="trip-field"
-          />
-          <br />
+                <TextField
+                  id="comment"
+                  label="Comment"
+                  value={comment}
+                  onChange={this.update('comment')}
+                  className={classes.textField}
+                  margin="normal"
+                />
 
-          <label htmlFor="start_date">Start Date</label>
-          <input
-            required
-            id="start_date"
-            type="date"
-            value={start_date}
-            onChange={this.update('start_date')}
-            className="trip-field"
-          />
-          <br />
+                <InputLabel htmlFor="start_date">Start Date</InputLabel>
+                <input
+                  required
+                  id="start_date"
+                  label="Start Date"
+                  type="date"
+                  value={start_date}
+                  className={classes.textField}
+                  onChange={this.update('start_date')}
+                />
 
-          <label htmlFor="end_date">End Date</label>
-          <input
-            required
-            id="end_date"
-            type="date"
-            value={end_date}
-            onChange={this.update('end_date')}
-            className="trip-field"
-          />
-          <br />
+                <InputLabel htmlFor="end_date">End Date</InputLabel>
+                <input
+                  required
+                  id="end_date"
+                  label="End Date"
+                  type="date"
+                  value={end_date}
+                  min={start_date}
+                  className={classes.textField}
+                  onChange={this.update('end_date')}
+                />
 
-          <div className='create-trip-buttons'>
-            <button
-              type="submit"
-              className="create-trip-button"
-            >
-              Submit
-            </button>
-            <button
-              type="button"
-              onClick={this.props.history.goBack}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+                <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                  Submit
+                </Button>
+                <Button type="button" onClick={this.props.history.goBack} variant="contained" className={classes.button}>
+                  Cancel
+                </Button>
+              </form>
+            </div>
+          </Grid>
+        </Grid>
       </div>
     );
   }
 }
 
-export default withRouter(TripForm);
+TripForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withRouter(connect()(withStyles(styles)(TripForm)));
