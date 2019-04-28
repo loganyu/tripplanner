@@ -1,5 +1,48 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    backgroundColor: theme.palette.error.dark,
+    color: 'white',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 400,
+    fontSize: 20,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
+});
 
 class UserForm extends React.Component {
   constructor(props) {
@@ -51,7 +94,12 @@ class UserForm extends React.Component {
     if (this.state.password != '') {
       formData.append('user[password]', this.state.password);
     }
-    formData.append('user[role]', this.state.role);
+    if (this.state.role != '') {
+      formData.append('user[role]', this.state.role);
+    } else {
+      formData.append('user[role]', null);
+    }
+    
 
     this.props.submit(formData).then((resp) => {
       if (currentUser.role != null && this.state.role  == "") {
@@ -68,71 +116,83 @@ class UserForm extends React.Component {
       password,
       role,
     } = this.state;
-    const { currentUser, match, errors } = this.props;
+    const { currentUser, errors, classes } = this.props;
 
     return (
-      <div className="new-user-container">
-        {errors.length > 0 && this.renderErrors()}
-        <form className="new-user-form" onSubmit={this.handleSubmit}>
-          <h2 className="new-user-title">User</h2>
-          <label htmlFor="destination">Username</label>
-          <input
-            required
-            id="username"
-            type="text"
-            value={username}
-            onChange={this.update('username')}
-            className="user-field"
-          />
-          <br />
-
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="text"
-            value={password}
-            placeholder="enter new pw or leave blank to keep old pw"
-            onChange={this.update('password')}
-            className="user-field"
-          />
-          <br />
-          {
-            currentUser.role != null &&
+      <div className={classes.root}>
+        <Grid container spacing={0}>
+          <Grid item xs={12} container
+            display="flex"
+            justify="center"
+          >
             <div>
-              <label htmlFor="role">Role</label>
-              <select
-                id="role"
-                onChange={this.update('role')}
-                defaultValue={role}
-              >
-                <option value={null}>None</option>
-                <option value="manager">Manager</option>
-                { currentUser.role == "admin" &&
-                  <option value="admin">Admin</option>
-                }
-              </select>
-              <br />
-            </div>
-          }
+              <h2>Edit User</h2>
+              <form onSubmit={this.handleSubmit} className={classes.container}>
+                <TextField
+                  id="username"
+                  label="Username"
+                  className={classes.textField}
+                  onChange={this.update('username')}
+                  margin="normal"
+                  autoComplete="username"
+                  value={username}
+                />
 
-          <div className='create-user-buttons'>
-            <button
-              type="submit"
-              className="create-user-button"
-            >
-              Submit
-            </button>
-            <button
-              type="button"
-              onClick={this.handleCancel}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+                <TextField
+                  id="password"
+                  label="Password: Leave blank to keep password the same"
+                  value={password}
+                  className={classes.textField}
+                  type="password"
+                  autoComplete="current-password"
+                  margin="normal"
+                  onChange={this.update('password')}
+                />
+
+                {
+                  currentUser.role != null &&
+                  <div>
+                    <FormControl className={classes.formControl}>
+                      <InputLabel htmlFor="role">Role</InputLabel>
+                      <Select
+                        value={role}
+                        onChange={this.update('role')}
+
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value="manager">Manager</MenuItem>
+                        {currentUser.role == "admin" &&
+                          <MenuItem value="admin">Admin</MenuItem>
+                        }
+                      </Select>
+                    </FormControl>
+                  </div>
+                }
+
+                <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                  Submit
+                </Button>
+                <Button type="button" onClick={this.handleCancel} variant="contained" className={classes.button}>
+                  Cancel
+                </Button>
+              </form>
+              {errors.length > 0 &&
+                <Paper className={classes.paper} elevation={1}>
+                  {this.renderErrors()}
+                </Paper>
+              }
+            </div>
+          </Grid>
+        </Grid>
       </div>
     );
   }
 }
 
-export default withRouter(UserForm);
+UserForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withRouter(connect()(withStyles(styles)(UserForm)));

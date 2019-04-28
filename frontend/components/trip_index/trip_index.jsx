@@ -46,6 +46,7 @@ class TripIndex extends React.Component {
                     user={user}
                     destroyUser={destroyUser}
                     currentUser={currentUser}
+                    page="tripIndex"
                   />
                 </div>
               }

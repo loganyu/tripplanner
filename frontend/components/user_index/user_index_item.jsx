@@ -25,6 +25,7 @@ const styles = {
   },
   pos: {
     marginBottom: 12,
+    height: 25,
   },
 };
 
@@ -46,15 +47,15 @@ class UserIndexItem extends React.Component {
   }
 
   handleDestroyUser() {
-    const { user, currentUser } = this.props;
+    const { user, currentUser, page } = this.props;
 
-    this.props.destroyUser(user.id).then(() => {
-      if (currentUser.role != null && user.id != currentUser.id) {
-        this.props.history.goBack();
-      } else {
-        this.props.history.push('/signup')
-      }
-    });
+    this.props.destroyUser(user.id);
+
+    if (currentUser.role != null && user.id != currentUser.id && page == "tripIndex") {
+      this.props.history.goBack();
+    } else if (user.id == currentUser.id) {
+      this.props.history.push('/signup')
+    }
   }
 
   render() {

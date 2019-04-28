@@ -48,6 +48,7 @@ class UserIndex extends React.Component {
                 user={user}
                 destroyUser={destroyUser}
                 currentUser={currentUser}
+                page="userIndex"
               />
             </Grid>
           ))}
