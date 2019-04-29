@@ -38,6 +38,34 @@ Trip.create!(
   :start_date => Date.new(2019,1,17),
   :end_date => Date.new(2019,2,16),
 )
+Trip.create!(
+  :user_id => loganyu.id,
+  :destination => "Austin",
+  :comment => "Best time with Jess! 🥰",
+  :start_date => Date.new(2019,2,17),
+  :end_date => Date.new(2019,2,16),
+)
+Trip.create!(
+  :user_id => loganyu.id,
+  :destination => "London",
+  :comment => "Watching the marathon!",
+  :start_date => Date.new(2019,5,1),
+  :end_date => Date.new(2019,5,10),
+)
+Trip.create!(
+  :user_id => loganyu.id,
+  :destination => "Hong Kong",
+  :comment => "Going to eat a lot of food.",
+  :start_date => Date.new(2019,5,11),
+  :end_date => Date.new(2019,5,17),
+)
+Trip.create!(
+  :user_id => loganyu.id,
+  :destination => "Taipei",
+  :comment => "More exploring.",
+  :start_date => Date.new(2019,5,17),
+  :end_date => Date.new(2019,6,10),
+)
 
 5.times do
   username = Faker::Name.name.split.join('_')
