@@ -1,5 +1,5 @@
 class Api::AuthenticationController < ApplicationController
-  protect_from_forgery with: :null_session
+  protect_from_forgery with: :exception, except: :login
   skip_before_action :require_logged_in
 
   def login
