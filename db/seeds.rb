@@ -67,6 +67,18 @@ Trip.create!(
   :end_date => Date.new(2019,6,10),
 )
 
+toptal = User.create!(:username => "toptal", :password => "password", :role => "admin")
+10.times do
+    start_date = Faker::Date.between(1.months.ago, 2.months.from_now)
+    Trip.create!(
+      :user_id => toptal.id,
+      :destination => Faker::Nation.capital_city,
+      :comment => Faker::Lorem.paragraph,
+      :start_date => start_date,
+      :end_date => Faker::Date.between(start_date + 2.days, start_date + 2.weeks),
+    )
+  end
+
 5.times do
   username = Faker::Name.name.split.join('_')
   user = User.create(username: username, password: 'password', role: 'manager')
