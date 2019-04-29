@@ -40,11 +40,11 @@ http://travelplanner-logan.herokuapp.com/api/users/448
 ### PUT users/user_id
 params: {user: {username (optional), password(optional)}}
 ```
-curl -d '{"user":{"username":"logan", "password":"password"}}' \
+curl -d '{"user":{"username":"newuser"}}' \
 -H "Accept: application/json" \
 -H "Content-Type: application/json" \
--H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0NDgsImV4cCI6MTU1NjU3NzkxMX0.NqilBOtupDVV3yBO9yJCAKN5fum0i-uT2cYmyxKvPhI" \
- -X PUT http://travelplanner-logan.herokuapp.com/api/users/448
+-H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTIsImV4cCI6MTU1NjYzNTAyNH0._ZpfCyENpJRX_h4GLoA-JHiI9QqjfpLNOBPKnj9FL7s" \
+ -X PUT http://travelplanner-logan.herokuapp.com/api/users/113
 ```
 
 ### DELETE users/user_id
@@ -102,3 +102,13 @@ curl -d '{"trip":{"destination":"Cruise", "comment":"Shes never has avocado befo
 {"trip":{"id":4858,"destination":"Cruise","comment":"Shes never has avocado before. Can you believe that?","start_date":"2019-02-01","end_date":"2019-02-09"}}
  ```
  
+ ### DELETE users/user_id/trips/trip_id
+```
+curl \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0NDgsImV4cCI6MTU1NjU3NzkxMX0.NqilBOtupDVV3yBO9yJCAKN5fum0i-uT2cYmyxKvPhI" \
+ -X DELETE http://travelplanner-logan.herokuapp.com/api/users/490/trips/4858
+
+{"message":"delete successful"}
+```
